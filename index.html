@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time for Break and Exercise</title>
+    <style>
+        /* Variables for theme colors */
+        :root {
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --toggle-bg: #ddd;
+            --toggle-circle: #fff;
+            --toggle-shadow: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark theme variables */
+        [data-theme="dark"] {
+            --background-color: #222;
+            --text-color: #f5f5f5;
+            --toggle-bg: #555;
+            --toggle-circle: #aaa;
+            --toggle-shadow: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main heading styles */
+        h1 {
+            text-align: center;
+            font-weight: 500;
+            font-size: clamp(1.5rem, 5vw, 3.5rem);
+            padding: 0 1rem;
+            max-width: 90%;
+            line-height: 1.3;
+        }
+
+        /* Dark mode toggle */
+        .theme-switch-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            width: 48px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: var(--toggle-bg);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            background-color: var(--toggle-circle);
+            bottom: 4px;
+            content: "";
+            height: 16px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 16px;
+            border-radius: 50%;
+            box-shadow: 0 0 2px var(--toggle-shadow);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .theme-switch-wrapper {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider"></div>
+        </label>
+    </div>
+
+    <h1>Time for break and exercise</h1>
+
+    <script>
+        const toggleSwitch = document.querySelector('#checkbox');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Check for saved theme preference or respect OS preference
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            toggleSwitch.checked = true;
+            localStorage.setItem('theme', 'dark');
+        }
+
+        // Switch theme function
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }    
+        }
+
+        // Event listener
+        toggleSwitch.addEventListener('change', switchTheme, false);
+    </script>
+</body>
+</html>
